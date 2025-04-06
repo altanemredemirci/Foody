@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foody.CORE", "Foody.CORE\Foody.CORE.csproj", "{3905B3B3-91A2-4D02-BAE3-70CE6581F733}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foody.CORE", "Foody.CORE\Foody.CORE.csproj", "{3905B3B3-91A2-4D02-BAE3-70CE6581F733}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foody.DAL", "Foody.DAL\Foody.DAL.csproj", "{5A51F8A6-A998-41D0-8FEB-73B7D0A30DD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foody.DAL", "Foody.DAL\Foody.DAL.csproj", "{5A51F8A6-A998-41D0-8FEB-73B7D0A30DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foody.WEBUI", "Foody.WEBUI\Foody.WEBUI.csproj", "{C4899B48-F965-471A-9A0C-52ABDBF15CC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foody.WEBUI", "Foody.WEBUI\Foody.WEBUI.csproj", "{C4899B48-F965-471A-9A0C-52ABDBF15CC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foody.BLL", "Foody.BLL\Foody.BLL.csproj", "{DDAAF7F1-7270-471E-B9E6-D351361DC008}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C4899B48-F965-471A-9A0C-52ABDBF15CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4899B48-F965-471A-9A0C-52ABDBF15CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4899B48-F965-471A-9A0C-52ABDBF15CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDAAF7F1-7270-471E-B9E6-D351361DC008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDAAF7F1-7270-471E-B9E6-D351361DC008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDAAF7F1-7270-471E-B9E6-D351361DC008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDAAF7F1-7270-471E-B9E6-D351361DC008}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

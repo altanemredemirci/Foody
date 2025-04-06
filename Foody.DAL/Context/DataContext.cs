@@ -12,9 +12,13 @@ namespace Foody.DAL.Context
 {
     public class DataContext:IdentityDbContext<ApplicationUser>
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=202-3\\SQLDERS;Database=FoodyDB;Integrated Security=true;TrustServerCertificate=true");
+        //}
+
+        public DataContext(DbContextOptions<DataContext> options): base(options)
         {
-            optionsBuilder.UseSqlServer("Server=202-3\\SQLDERS;Database=FoodyDB;Integrated Security=true;TrustServerCertificate=true");
         }
 
         //FLUENT API

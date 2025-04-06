@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Foody.BLL\Foody.BLL.csproj" />
+    <ProjectReference Include="..\Foody.CORE\Foody.CORE.csproj" />
+  </ItemGroup>
+
 </Project>
