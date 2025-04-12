@@ -1,29 +1,55 @@
-﻿using Foody.CORE.Entities;
-using Foody.DAL.Concrete.EfCore;
+﻿using Foody.BLL.Abstract;
+using Foody.CORE.Entities;
+using Foody.DAL.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Foody.BLL.Concrete
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         /// <summary>
         /// Injection: Farklı bir projedeki yapıyı içeriye dahil etme(enjekte)
         /// </summary>
-        private readonly EfCoreProductDal _efCoreProductDal;
+        private readonly IProductDal _productDal;
 
-        public ProductService(EfCoreProductDal efCoreProductDal)
+        public ProductService(IProductDal productDal)
         {
-            _efCoreProductDal = efCoreProductDal;
+            _productDal = productDal;
         }
 
-        public List<Product> List()
+        public int Create(Product entity)
         {
-            return _efCoreProductDal.List();
+            throw new NotImplementedException();
         }
 
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Product> GetAll()
+        {
+            return _productDal.GetAll();
+        }
+
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
+        {
+            return _productDal.GetAll(filter);
+        }
+
+        public Product GetOne(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

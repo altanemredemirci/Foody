@@ -20,5 +20,6 @@ namespace Foody.DAL.Concrete.EfCore
             _context = context;
 
         }
+
     }
 }

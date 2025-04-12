@@ -1,4 +1,4 @@
-using Foody.BLL.Concrete;
+using Foody.BLL.Abstract;
 using Foody.WEBUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,16 +7,16 @@ namespace Foody.WEBUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
-        public HomeController(ProductService productService)
+        public HomeController(IProductService productService)
         {
             _productService = productService;
         }
 
         public IActionResult Index()
         {
-            var products =_productService.List();
+            var products = _productService.GetAll(i=>i.IsFavorite==true);
             return View(products);
         }
 
@@ -25,9 +25,10 @@ namespace Foody.WEBUI.Controllers
             return View();
         }
 
-        public IActionResult Product()
+        public IActionResult ProductList()
         {
-            return View();
+            var products = _productService.GetAll();
+            return View(products);
         }
 
         public IActionResult Contact()
