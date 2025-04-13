@@ -1,0 +1,29 @@
+﻿@model List<Category>
+
+<div class="row g-0 gx-5 align-items-end">
+    <div class="col-lg-6">
+        <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <h1 class="display-5 mb-3">Ürünlerimiz</h1>
+            <p>Taze ürünlerimiz tarladan sofranıza..</p>
+        </div>
+    </div>
+    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+            @foreach (var cat in Model)
+            {
+                <li class="nav-item me-2">
+                    <a class="btn btn-outline-primary border-2 @(cat == Model.First() ? "active" : "")" data-bs-toggle="pill" href="#@cat.Name.Replace(" ", "-")">@cat.Name</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="tab-content">
+    @foreach (var cat in Model)
+    {
+        <div id="@cat.Name.Replace(" ", "-")" class="tab-pane fade @(cat == Model.First() ? "show active" : "")">
+            @await Component.InvokeAsync("_ProductListViewComponentPartial", cat.Id)
+        </div>
+    }
+</div>

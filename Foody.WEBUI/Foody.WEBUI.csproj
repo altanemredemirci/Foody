@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Foody.CORE\Foody.CORE.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewComponents\Home\" />
+  </ItemGroup>
+
 </Project>

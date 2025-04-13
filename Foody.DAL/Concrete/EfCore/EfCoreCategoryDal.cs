@@ -1,4 +1,5 @@
 ﻿using Foody.CORE.Entities;
+using Foody.DAL.Abstract;
 using Foody.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Foody.DAL.Concrete.EfCore
 {
-    public class EfCoreCategoryDal : EfCoreGenericRepositoryDal<Category, DataContext>
+    public class EfCoreCategoryDal : EfCoreGenericRepositoryDal<Category, DataContext>,ICategoryDal
     {
         private readonly DataContext _context;
         public EfCoreCategoryDal(DataContext context) : base(context)

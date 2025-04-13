@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Foody.BLL.Concrete
 {
-    internal class AboutService : IAboutService
+    public class AboutService : IAboutService
     {
         private readonly IAboutDal _aboutDal;
 

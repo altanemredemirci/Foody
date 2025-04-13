@@ -17,6 +17,7 @@ namespace Foody.WEBUI.Controllers
         public IActionResult Index()
         {
             var products = _productService.GetAll(i=>i.IsFavorite==true);
+
             return View(products);
         }
 

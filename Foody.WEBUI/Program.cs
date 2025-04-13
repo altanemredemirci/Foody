@@ -23,9 +23,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 // *** Dependency Injection ***
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDal, EfCoreProductDal>();
+
+builder.Services.AddScoped<IAboutService, AboutService>();
+builder.Services.AddScoped<IAboutDal, EfCoreAboutDal>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
+
 #region AddScope,AddTransient,AddSingleton
-    /*
-    Service lifetimes(Servis ömürleri) ?
+/*
+Service lifetimes(Servis ömürleri) ?
 
 Asp.Net ‘te sunucuya gelen her istek ile yeni bir servis kapsamý oluþturulur, bu istek sona erdiðinde istek ile beraber çözümlenen tüm servisler, servis kapsamý ile beraber temizlenir. Bu servis ömürleri (service lifetimes) , servislerin ne þekilde çözümleneceðini ve temizleneceðini belirler.
 
@@ -55,7 +62,7 @@ AddTransient ?
 Servis her çaðrýldýðýn da yeni bir instance oluþturur. Yani ayný istek aþamasýnda da farklý isteklerde de servis birden fazla kez çaðrýlýyorsa servis her çaðrýldýðýnda yeni bir instance oluþturur.
 
 Bütün bunlarý daha anlaþýlýr hale getirebilmek için birde örnekler üzerinden bakalým./
-    */
+*/
 #endregion
 
 var app = builder.Build();
