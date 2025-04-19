@@ -25,7 +25,7 @@ namespace Foody.DAL.Concrete.EfCore
             return _context.Set<T>().ToList();
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             //return filter == null
             //    ? context.Set<T>().ToList()
@@ -40,7 +40,7 @@ namespace Foody.DAL.Concrete.EfCore
             return entities.ToList();
         }
 
-        public T GetOne(int id)
+        public virtual T GetOne(int id)
         {
             return _context.Set<T>().Find(id);
         }

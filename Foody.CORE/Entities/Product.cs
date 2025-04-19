@@ -14,7 +14,6 @@ namespace Foody.CORE.Entities
                 
         public decimal ListPrice { get; set; }
         public int Stock { get; set; }
-        public string ImageUrl { get; set; }
         public string Description { get; set; }
         public bool IsFavorite { get; set; }
         public int Discount { get; set; }
@@ -23,6 +22,8 @@ namespace Foody.CORE.Entities
         public List<Comment> Comments { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        public List<Image> Images { get; set; }
 
     }
 }

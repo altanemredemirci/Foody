@@ -32,6 +32,17 @@ namespace Foody.WEBUI.Controllers
             return View(products);
         }
 
+        public IActionResult ProductDetail(int id)
+        {
+            var product = _productService.GetOne(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
         public IActionResult Contact()
         {
             return View();

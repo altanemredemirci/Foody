@@ -58,6 +58,7 @@ namespace Foody.DAL.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Mail> Mails { get; set; }
+        public DbSet<Image> Images { get; set; }
         public DbSet<About> Abouts { get; set; }
     }
 }

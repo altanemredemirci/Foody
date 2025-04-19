@@ -44,7 +44,7 @@ namespace Foody.BLL.Concrete
 
         public Product GetOne(int id)
         {
-            throw new NotImplementedException();
+            return _productDal.GetOne(id);
         }
 
         public int Update()

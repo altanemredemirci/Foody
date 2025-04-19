@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Foody.DAL.Context
 {
-    public class MySQLDataContext:DbContext
+    public class MySQLDataContext//:DbContext
     {
-        public MySQLDataContext(DbContextOptions<MySQLDataContext> options) : base(options)
-        {
-        }
+        //public MySQLDataContext(DbContextOptions<MySQLDataContext> options) : base(options)
+        //{
+        //}
 
 
     }
