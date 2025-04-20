@@ -1,6 +1,7 @@
 ﻿using Foody.CORE.Entities;
 using Foody.DAL.Abstract;
 using Foody.DAL.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Foody.DAL.Concrete.EfCore
 
         public Contact GetById()
         {
-            return _context.Contacts.Find(1);
+            return _context.Contacts.Include(i=> i.SocialMedias).FirstOrDefault(i=> i.Id==3);
         }
     }
 }

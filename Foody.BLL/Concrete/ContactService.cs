@@ -14,6 +14,11 @@ namespace Foody.BLL.Concrete
     {
         private IContactDal _contactDal;
 
+        public ContactService(IContactDal contactDal)
+        {
+            _contactDal = contactDal;
+        }
+
         public Contact GetById()
         {
             return _contactDal.GetById();
