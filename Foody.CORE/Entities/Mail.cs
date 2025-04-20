@@ -13,5 +13,10 @@ namespace Foody.CORE.Entities
         public string Subject { get; set; }
         public string Message { get; set; }
         public bool IsHtml { get; set; }
+
+        public Mail()
+        {
+            To = new List<string>();
+        }
     }
 }

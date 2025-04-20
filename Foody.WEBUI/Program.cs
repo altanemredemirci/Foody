@@ -33,6 +33,9 @@ builder.Services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IContactDal, EfCoreContactDal>();
 
+builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<IMailDal, EfCoreMailDal>();
+
 #region AddScope,AddTransient,AddSingleton
 /*
 Service lifetimes(Servis ömürleri) ?

@@ -11,11 +11,13 @@ namespace Foody.WEBUI.Controllers
     {
         private readonly IProductService _productService;
         private readonly IContactService _contactService;
+        private readonly IMailService _mailService;
 
-        public HomeController(IProductService productService, IContactService contactService)
+        public HomeController(IProductService productService, IContactService contactService, IMailService mailService)
         {
             _productService = productService;
             _contactService = contactService;
+            _mailService = mailService;
         }
 
         public IActionResult Index()
@@ -73,6 +75,13 @@ namespace Foody.WEBUI.Controllers
                 }
             }
             return View(mail);
+        }
+
+
+        public IActionResult News(string email)
+        {
+            var model = _mailService.Sendmail(email);
+            return RedirectToAction("Index");
         }
 
 
