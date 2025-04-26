@@ -27,7 +27,7 @@ namespace Foody.DAL.Concrete.EfCore
 
         public override List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
-            var entities = _context.Products.Include(i=>i.Images).AsQueryable();
+            var entities = _context.Products.Include(i=> i.Category).Include(i=>i.Images).AsQueryable(); //.AsTracking():gönderilen istek takip edilmez.
 
             if (filter != null)
             {

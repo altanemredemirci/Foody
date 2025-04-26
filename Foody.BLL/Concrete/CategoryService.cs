@@ -29,14 +29,9 @@ namespace Foody.BLL.Concrete
             throw new NotImplementedException();
         }
 
-        public List<Category> GetAll()
-        {
-            return _categoryDal.GetAll();
-        }
-
         public List<Category> GetAll(Expression<Func<Category, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            return _categoryDal.GetAll();
         }
 
         public Category GetOne(int id)

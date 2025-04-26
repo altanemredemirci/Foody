@@ -10,7 +10,6 @@ namespace Foody.CORE.Repositories
 {
     public interface IRepositoryService<T>
     {
-        List<T> GetAll();
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
         T GetOne(int id);
         int Create(T entity);

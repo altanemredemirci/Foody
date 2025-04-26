@@ -31,12 +31,6 @@ namespace Foody.BLL.Concrete
         {
             throw new NotImplementedException();
         }
-
-        public List<Product> GetAll()
-        {
-            return _productDal.GetAll();
-        }
-
         public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
             return _productDal.GetAll(filter);

@@ -20,11 +20,6 @@ namespace Foody.DAL.Concrete.EfCore
             _context = context;
         }
 
-        public List<T> GetAll()
-        {
-            return _context.Set<T>().ToList();
-        }
-
         public virtual List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             //return filter == null
