@@ -24,12 +24,12 @@ namespace Foody.BLL.Concrete
 
         public int Create(Product entity)
         {
-            throw new NotImplementedException();
+            return _productDal.Create(entity);
         }
 
         public int Delete(int id)
         {
-            throw new NotImplementedException();
+            return _productDal.Delete(id);
         }
         public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
@@ -43,7 +43,7 @@ namespace Foody.BLL.Concrete
 
         public int Update()
         {
-            throw new NotImplementedException();
+            return _productDal.Update();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿@model CreateProductDTO
+﻿@model UpdateProductDTO
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -8,16 +8,17 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row"> <!-- 12 Birim -->
+            <div class="row">
+                <!-- 12 Birim -->
                 <div class="col-md-6 offset-3">
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Ürün Ekle</h3>
+                            <h3 class="card-title">Ürün Güncelle</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="/Product/Create" method="post" enctype="multipart/form-data">
+                        <form action="/Product/Edit" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="card-body">
                                 <div class="form-group">
@@ -27,7 +28,7 @@
                                         {
                                             <option value="@item.Id">@item.Name</option>
                                         }
-                                      
+
                                     </select>
                                     <span asp-validation-for="CategoryId" class="text-danger"></span>
 
@@ -35,7 +36,7 @@
 
                                 <div class="form-group">
                                     <label>Ürün Ad</label>
-                                    <input asp-for=Name  class="form-control" placeholder="Ürün adı..">
+                                    <input asp-for=Name class="form-control" placeholder="Ürün adı..">
                                     <span asp-validation-for="Name" class="text-danger"></span>
 
                                 </div>
@@ -53,7 +54,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Ürün Stok</label>
-                                    <input asp-for=Stock class="form-control" min="0"step="10" placeholder="Ürün stok..">
+                                    <input asp-for=Stock class="form-control" min="0" step="10" placeholder="Ürün stok..">
                                     <span asp-validation-for="Stock" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
@@ -61,8 +62,20 @@
                                     <input asp-for="Discount" class="form-control" min="0" max="100" step="1" placeholder="İndirim..">
                                     <span asp-validation-for="Discount" class="text-danger"></span>
                                 </div>
+
+
+
                                 <div class="form-group">
-                                    <label>Resim</label>
+                                    <label>Resimler</label>
+                                    <div class="row">
+                                        @foreach (Image item in Model.Images)
+                                        {
+                                            <div class="col-3" style="align-items:center">
+                                                <img src="~/img/@item.Url" width="100%"/>
+                                                <input type="checkbox" name="ImageId" value="@item.Id" />
+                                            </div>
+                                        }
+                                    </div>
                                     <input type="file" class="form-control" name="files" multiple>
                                 </div>
 
@@ -76,7 +89,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                                <button type="submit" class="btn btn-primary">Güncelle</button>
                             </div>
                         </form>
                     </div>
@@ -90,4 +103,6 @@
         </div><!-- /.container-fluid -->
     </div>
 </div>
+
+
 

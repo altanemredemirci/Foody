@@ -1,0 +1,39 @@
+﻿using Foody.CORE.Entities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Foody.CORE.DTOs.Product
+{
+    public class UpdateProductDTO
+    {
+        [Required(ErrorMessage = "İsim alanı boş geçilemez")]
+        [StringLength(30)]
+        public string Name { get; set; }
+
+        public decimal ListPrice { get; set; }
+
+        [Range(1, 1000)]
+        public int Stock { get; set; }
+
+        [StringLength(100)]
+        public string Description { get; set; }
+
+        public bool IsFavorite { get; set; }
+
+        [Range(0, 100)]
+        public int Discount { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public List<Image> Images { get; set; }
+
+        public UpdateProductDTO()
+        {
+            Images = new List<Image>();
+        }
+    }
+}

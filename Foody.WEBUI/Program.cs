@@ -1,6 +1,7 @@
 using Foody.BLL.Abstract;
 using Foody.BLL.Concrete;
 using Foody.CORE.Identity;
+using Foody.CORE.Mapping;
 using Foody.DAL.Abstract;
 using Foody.DAL.Concrete;
 using Foody.DAL.Concrete.EfCore;
@@ -70,6 +71,9 @@ Servis her çaðrýldýðýn da yeni bir instance oluþturur. Yani ayný istek aþamasýnd
 Bütün bunlarý daha anlaþýlýr hale getirebilmek için birde örnekler üzerinden bakalým./
 */
 #endregion
+
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
