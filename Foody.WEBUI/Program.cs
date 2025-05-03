@@ -21,6 +21,47 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
               .AddEntityFrameworkStores<DataContext>()
               .AddDefaultTokenProviders();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    //password
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 6;
+
+    options.Lockout.MaxFailedAccessAttempts = 5; //5 hatalý giriþ hakký
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //5 hatalý giriþ sonrasý 5dk giriþ kilitlensin
+    options.Lockout.AllowedForNewUsers = true; //Her yeni üye için bu özelliði ver.
+
+
+    //user
+    options.User.RequireUniqueEmail = true; //Benzersiz Email zorunluluðu
+    //options.User.AllowedUserNameCharacters = ""; //Username de izin verilen özel karakterler
+
+    options.SignIn.RequireConfirmedEmail = false; //Kayýt sonrasý giriþ yapabilmek için Emaili onaylamalý
+    options.SignIn.RequireConfirmedPhoneNumber = false; //Kayýt sonrasý giriþ yapabilmek için Telefon numarasý onaylamalý
+});
+
+//Configure Cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); //Oturum süresi
+    options.SlidingExpiration = true; //Herhangi bir harekette süresi tekrar baþlat
+    options.Cookie = new CookieBuilder
+    {
+        HttpOnly = true, 
+        Name = "Organic.Security.Cookie",
+        SameSite = SameSiteMode.Strict //Oturumu serverdan kullanýcý browserýna taþýdýk
+    };
+});
+
+
+
+
 // *** Dependency Injection ***
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDal, EfCoreProductDal>();
@@ -97,3 +138,19 @@ app.MapControllerRoute(
     pattern: "{controller=Admin}/{action=Index}/{id?}");
 
 app.Run();
+
+#region Proje Adýmlarý
+/*
+Projenize en uygun ve en az revize isteyen Template karar verilmeli.
+Proje Þablonu, ihtiyaç duyulan entityler, Veritabaný diagramý ve kullanýlacak mimariye karar verilmeli.
+Entity Oluþturulacak
+Database iþlemleri -DbContext,DbSet<>
+Database CRUD(Create,Read,Update,Delete) komutlarý yazýlýr.
+*NKatmalýmimari
+HomeController - Index
+    *Anasayfadaki elementleri veritabanýnadan gelecek þekilde kodluyoruz.
+Anasayfa ve navbar da bulunan sayfalarý oluþturduktan sonra Admin Panel kýsmýna geçilir.
+
+
+ */
+#endregion

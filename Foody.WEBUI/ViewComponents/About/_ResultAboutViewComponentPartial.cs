@@ -14,7 +14,7 @@ namespace Foody.WEBUI.ViewComponents.About
 
         public IViewComponentResult Invoke()
         {
-            var about = _aboutService.GetOne();
+            var about = _aboutService.GetOne(1);
             return View(about);
         }
     }

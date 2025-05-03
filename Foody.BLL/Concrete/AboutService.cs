@@ -4,6 +4,7 @@ using Foody.DAL.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,9 +18,30 @@ namespace Foody.BLL.Concrete
         {
             _aboutDal = aboutDal;
         }
-        public About GetOne()
+
+        public int Create(About entity)
         {
-            return _aboutDal.GetOne();
+            return _aboutDal.Create(entity);
+        }
+
+        public int Delete(int id)
+        {
+            return _aboutDal.Delete(id);
+        }
+
+        public List<About> GetAll(Expression<Func<About, bool>> filter = null)
+        {
+            return _aboutDal.GetAll(filter);
+        }
+
+        public About GetOne(int Id)
+        {
+            return _aboutDal.GetOne(Id);
+        }
+
+        public int Update()
+        {
+            return _aboutDal.Update();
         }
     }
 }

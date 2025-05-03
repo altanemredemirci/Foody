@@ -1,4 +1,5 @@
 ﻿using Foody.CORE.Entities;
+using Foody.CORE.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace Foody.DAL.Abstract
 {
-    public interface IAboutDal
+    public interface IAboutDal:IRepositoryService<About>
     {
-        About GetOne();
     }
 }
