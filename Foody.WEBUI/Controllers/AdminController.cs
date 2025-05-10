@@ -1,11 +1,13 @@
 ﻿using Foody.BLL.Abstract;
 using Foody.CORE.Entities;
 using Foody.WEBUI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Foody.WEBUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IAboutService _aboutService;

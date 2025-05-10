@@ -67,19 +67,28 @@
                     <a href="/" class="nav-item nav-link active">Anasayfa</a>
                     <a href="/Home/About" class="nav-item nav-link">Hakkımızda</a>
                     <a href="/Home/productList" class="nav-item nav-link">Ürünler</a>
-                    
+
                     <a href="/Home/Contact" class="nav-item nav-link">İletişim</a>
                 </div>
                 <div class="d-none d-lg-flex ms-2">
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
                         <small class="fa fa-search text-body"></small>
-                    </a>
-                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="/Account/Login">
-                        <small class="fa fa-user text-body"></small>
-                    </a>
+                    </a>                  
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
                         <small class="fa fa-shopping-bag text-body"></small>
                     </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn-sm-square bg-white rounded-circle ms-3" href="/Account/Logout">
+                           <i class="fas fa-sign-out-alt text-body"></i>   
+                        </a>
+                    }
+                    else
+                    {
+                          <a class="btn-sm-square bg-white rounded-circle ms-3" href="/Account/Login">
+                        <small class="fa fa-user text-body"></small>
+                    </a>
+                    }
                 </div>
             </div>
         </nav>

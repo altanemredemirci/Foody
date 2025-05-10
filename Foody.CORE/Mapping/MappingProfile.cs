@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Foody.CORE.DTOs.ApplicationUser;
 using Foody.CORE.DTOs.Product;
 using Foody.CORE.Entities;
+using Foody.CORE.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace Foody.CORE.Mapping
         {
             CreateMap<CreateProductDTO, Product>().ReverseMap();
             CreateMap<UpdateProductDTO, Product>().ReverseMap();
+            CreateMap<CreateApplicationUserDTO, ApplicationUser>().ReverseMap();
         }
     }
 }
