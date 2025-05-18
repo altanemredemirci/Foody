@@ -1,4 +1,6 @@
-﻿using Foody.CORE.Identity;
+﻿using Foody.BLL.Abstract;
+using Foody.CORE.Entities;
+using Foody.CORE.Identity;
 using Foody.WEBUI.EmailService;
 using Foody.WEBUI.Models;
 using Microsoft.AspNetCore.Identity;
@@ -10,14 +12,19 @@ namespace Foody.WEBUI.Controllers
     public class AccountController : Controller
     {
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ICartService _cartService;
 
-		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,RoleManager<IdentityRole> roleManager,ICartService cartService)
 		{
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
+            _cartService = cartService;
 		}
 
+        [HttpGet]
 		public IActionResult Login(string returnUrl=null)
         {
 
@@ -65,6 +72,14 @@ namespace Foody.WEBUI.Controllers
 
                 if (result.Succeeded)
                 {
+                    if(!await _roleManager.RoleExistsAsync("admin"))
+                    {
+                         var role = await _roleManager.CreateAsync(new IdentityRole("admin"));
+                    }
+                   
+                        await _userManager.AddToRoleAsync(user, "admin");
+                  
+
 					var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var url = Url.Action("ConfirmEmail", "Account", new
                     {
@@ -144,6 +159,7 @@ namespace Foody.WEBUI.Controllers
             return View(new ResetPasswordViewModel() { Token = token, UserId = userId });
 
 		}
+
         [HttpPost]
 		public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
 		{
@@ -187,6 +203,10 @@ namespace Foody.WEBUI.Controllers
 
                 if (result.Succeeded)
                 {
+                    Cart cart = new Cart();
+                    cart.ApplicationUserId = userId;
+                    _cartService.Create(cart);
+
 					TempData["success"] = "Üyeliğiniz onaylandı. Lütfen giriş yapınız.";
 					return RedirectToAction("Login");
                 }
@@ -202,6 +222,9 @@ namespace Foody.WEBUI.Controllers
 
             return RedirectToAction("Index","Home");
         }
-
-    }
+		public async Task<IActionResult> AccessDenied()
+		{
+            return View();
+		}
+	}
 }

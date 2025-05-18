@@ -3,7 +3,6 @@ using Foody.BLL.Concrete;
 using Foody.CORE.Identity;
 using Foody.CORE.Mapping;
 using Foody.DAL.Abstract;
-using Foody.DAL.Concrete;
 using Foody.DAL.Concrete.EfCore;
 using Foody.DAL.Context;
 using Microsoft.AspNetCore.Identity;
@@ -59,9 +58,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
-
-
-
 // *** Dependency Injection ***
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDal, EfCoreProductDal>();
@@ -77,6 +73,9 @@ builder.Services.AddScoped<IContactDal, EfCoreContactDal>();
 
 builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IMailDal, EfCoreMailDal>();
+
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICartDal, EfCoreCartDal>();
 
 #region AddScope,AddTransient,AddSingleton
 /*

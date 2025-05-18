@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Foody.WEBUI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin")]
     public class AdminController : Controller
     {
         private readonly IAboutService _aboutService;

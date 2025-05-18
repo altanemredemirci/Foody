@@ -1,0 +1,169 @@
+﻿@model Cart
+
+@{
+    ViewData["Title"] = "Sepetim";
+}
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">Sepetim</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sepetim</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Cart Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        @if (TempData["success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["success"]
+            </div>
+        }
+
+        @if (Model != null && Model.CartItems != null && Model.CartItems.Count > 0)
+        {
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Ürün</th>
+                                    <th class="text-center">Fiyat</th>
+                                    <th class="text-center">Adet</th>
+                                    <th class="text-center">Toplam</th>
+                                    <th class="text-center">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <tr>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center">
+                                                @if (item.Product.Images != null && item.Product.Images.Count > 0)
+                                                {
+                                                    <img src="~/img/@item.Product.Images[0].Url" alt="@item.Product.Name" style="width: 50px; margin-right: 10px;">
+                                                }
+                                                <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="text-dark fw-medium">@item.Product.Name</a>
+                                            </div>
+                                        </td>
+                                        <td class="text-center align-middle">₺@item.ListPrice.ToString("N2")</td>
+                                        <td class="text-center align-middle">
+                                            <div class="input-group quantity mx-auto" style="width: 100px;">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-sm btn-secondary btn-minus">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                                <input type="text" class="form-control form-control-sm text-center" value="@item.Quantity">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-sm btn-secondary btn-plus">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center align-middle">₺@((item.ListPrice * item.Quantity).ToString("N2"))</td>
+                                        <td class="text-center align-middle">
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        <a href="/Home/ProductList" class="btn btn-secondary">
+                            <i class="fa fa-arrow-left me-2"></i>Alışverişe Devam Et
+                        </a>
+                        <button class="btn btn-primary ms-2">
+                            <i class="fa fa-sync-alt me-2"></i>Sepeti Güncelle
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 rounded-3 shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">Sipariş Özeti</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5>Ürünler Toplamı</h5>
+                                <h5>₺@Model.CartItems.Sum(i => i.ListPrice * i.Quantity).ToString("N2")</h5>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5>Kargo Ücreti</h5>
+                                <h5>Ücretsiz</h5>
+                            </div>
+                            <hr class="my-4">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h4>Toplam</h4>
+                                <h4>₺@Model.CartItems.Sum(i => i.ListPrice * i.Quantity).ToString("N2")</h4>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-primary btn-lg w-100">
+                                    Siparişi Tamamla <i class="fa fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-0 rounded-3 shadow mt-4">
+                        <div class="card-body">
+                            <h5 class="mb-3">İndirim Kuponu</h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Kupon kodu girin">
+                                <button class="btn btn-secondary">Uygula</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fa fa-shopping-cart fa-5x text-muted"></i>
+                </div>
+                <h3 class="mb-4">Sepetiniz Boş</h3>
+                <p class="text-muted mb-4">Henüz sepetinize ürün eklemediniz. Ürünleri keşfetmek ve sepetinize eklemek için alışverişe başlayın.</p>
+                <a href="/Home/ProductList" class="btn btn-primary">
+                    <i class="fa fa-shopping-bag me-2"></i>Alışverişe Başla
+                </a>
+            </div>
+        }
+    </div>
+</div>
+<!-- Cart End -->
+@section Scripts {
+    <script>
+        // Adet artırma/azaltma butonları için JavaScript
+        $(document).ready(function () {
+            $('.btn-plus').on('click', function () {
+                var inputElement = $(this).closest('.quantity').find('input');
+                var value = parseInt(inputElement.val());
+                inputElement.val(value + 1);
+            });
+
+            $('.btn-minus').on('click', function () {
+                var inputElement = $(this).closest('.quantity').find('input');
+                var value = parseInt(inputElement.val());
+                if (value > 1) {
+                    inputElement.val(value - 1);
+                }
+            });
+        });
+    </script>
+}
+
+
