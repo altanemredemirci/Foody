@@ -27,6 +27,7 @@
             </div>
         }
 
+
         @if (Model != null && Model.CartItems != null && Model.CartItems.Count > 0)
         {
             <div class="row g-5">
@@ -55,7 +56,7 @@
                                                 <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="text-dark fw-medium">@item.Product.Name</a>
                                             </div>
                                         </td>
-                                        <td class="text-center align-middle">₺@item.ListPrice.ToString("N2")</td>
+                                        <td class="text-center align-middle" id="productPrice">₺@item.ListPrice.ToString("N2")</td>
                                         <td class="text-center align-middle">
                                             <div class="input-group quantity mx-auto" style="width: 100px;">
                                                 <div class="input-group-btn">
@@ -71,11 +72,11 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-center align-middle">₺@((item.ListPrice * item.Quantity).ToString("N2"))</td>
+                                        <td class="text-center align-middle" id="total">₺@((item.ListPrice * item.Quantity).ToString("N2"))</td>
                                         <td class="text-center align-middle">
-                                            <button class="btn btn-sm btn-danger">
+                                            <a asp-action="DeleteFromCart" asp-controller="Cart" asp-route-productId="@item.Id"  class="btn btn-sm btn-danger">
                                                 <i class="fa fa-times"></i>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 }
@@ -99,7 +100,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <h5>Ürünler Toplamı</h5>
-                                <h5>₺@Model.CartItems.Sum(i => i.ListPrice * i.Quantity).ToString("N2")</h5>
+                                <h5 class="cart-summary-total">₺@Model.CartItems.Sum(i => i.ListPrice * i.Quantity).ToString("N2")</h5>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
                                 <h5>Kargo Ücreti</h5>
@@ -108,7 +109,8 @@
                             <hr class="my-4">
                             <div class="d-flex justify-content-between mb-3">
                                 <h4>Toplam</h4>
-                                <h4>₺@Model.CartItems.Sum(i => i.ListPrice * i.Quantity).ToString("N2")</h4>
+                                <h4 class="cart-summary-total">₺@Model.CartItems.Sum(i => i.ListPrice * i.Quantity).ToString("N2")</h4>
+
                             </div>
                             <div class="mt-4">
                                 <button class="btn btn-primary btn-lg w-100">
@@ -147,23 +149,57 @@
 <!-- Cart End -->
 @section Scripts {
     <script>
-        // Adet artırma/azaltma butonları için JavaScript
         $(document).ready(function () {
+            // Increase quantity
             $('.btn-plus').on('click', function () {
-                var inputElement = $(this).closest('.quantity').find('input');
+                var row = $(this).closest('tr');
+                var inputElement = row.find('.quantity input');
                 var value = parseInt(inputElement.val());
-                inputElement.val(value + 1);
+                var priceText = row.find('td#productPrice').text().replace('₺', '').replace(',', '.');
+                var price = parseFloat(priceText);
+                var newValue = value + 1;
+                inputElement.val(newValue);
+
+                // Update total for this row
+                var newTotal = (price * newValue).toFixed(2).replace('.', ',');
+                row.find('td#total').text('₺' + newTotal);
+
+                // Optionally, update order summary
+                updateCartSummary();
             });
 
+            // Decrease quantity
             $('.btn-minus').on('click', function () {
-                var inputElement = $(this).closest('.quantity').find('input');
+                var row = $(this).closest('tr');
+                var inputElement = row.find('.quantity input');
                 var value = parseInt(inputElement.val());
                 if (value > 1) {
-                    inputElement.val(value - 1);
+                    var newValue = value - 1;
+                    inputElement.val(newValue);
+
+                    var priceText = row.find('td#productPrice').text().replace('₺', '').replace(',', '.');
+                    var price = parseFloat(priceText);
+                    var newTotal = (price * newValue).toFixed(2).replace('.', ',');
+                    row.find('td#total').text('₺' + newTotal);
+
+                    // Optionally, update order summary
+                    updateCartSummary();
                 }
             });
+
+            // Update order summary (toplamlar)
+            function updateCartSummary() {
+                var sum = 0;
+                $('td#total').each(function () {
+                    var val = $(this).text().replace('₺', '').replace(',', '.');
+                    sum += parseFloat(val);
+                });
+                // Update summary fields
+                $('.cart-summary-total').text('₺' + sum.toFixed(2).replace('.', ','));
+            }
         });
     </script>
 }
+
 
 

@@ -29,7 +29,7 @@ namespace Foody.WEBUI.Controllers
 		}
 
 
-		public async Task<IActionResult> AddToCart(int quantity, int productId)
+		public async Task<IActionResult> AddToCart(int quantity, int productId,int stock=1)
 		{
 			var product = _productService.GetOne(productId);
 			var userId = _userManager.GetUserId(User);
@@ -44,7 +44,7 @@ namespace Foody.WEBUI.Controllers
 					{
 						ProductId = product.Id,
 						ListPrice = product.ListPrice,
-						Quantity = quantity,
+						Quantity = quantity*stock,
 						CartId = cart.Id
 					};
 
@@ -79,5 +79,15 @@ namespace Foody.WEBUI.Controllers
 
 			return View();
 		}
-	}
+
+		public async Task<IActionResult> DeleteFromCart(int productId)
+		{
+			if (productId==null)
+			{
+				TempData["message"] = "Ürün Bulunamadı";
+				return RedirectToAction("Index");
+			}
+		}
+
+    }
 }

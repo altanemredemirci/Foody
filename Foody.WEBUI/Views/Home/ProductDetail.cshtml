@@ -564,6 +564,7 @@
         <h1 class="display-5">Ürünümüz</h1>
     </div>
     <div class="product-grid">
+
         <!-- Ürün Görselleri -->
         <div class="product-images">
             <div class="main-image">
@@ -573,73 +574,75 @@
             <div class="image-thumbnails">
                 @foreach (var item in Model.Images)
                 {
-                      <button class="thumbnail-btn active">
+                    <button class="thumbnail-btn active">
                         <img src="~/img/@item.Url" alt="@item.Product.Name">
                     </button>
 
                 }
-              
-              
+
+
             </div>
         </div>
 
         <!-- Ürün Bilgileri -->
         <div class="product-info">
-            <div>
-                <span class="product-badge">Organik</span>
-                <h1 class="product-title">@Model.Name</h1>
-
-                <div class="product-rating">
-                    <div class="stars">
-                        <span>★★★★☆</span>
-                    </div>
-                    <span class="rating-count">4.8 (120 değerlendirme)</span>
-                </div>
-            </div>
-
-            <div class="product-price">
-                <span class="current-price">₺@Model.ListPrice</span>
-                <span class="original-price">₺15,90</span>
-                <span class="discount-badge">%19 İndirim</span>
-            </div>
-
-            <div class="product-description">
-                <p>
-                    @Model.Description
-                </p>
-            </div>
-
-            <div class="product-options">
+            <form action="/Cart/AddToCart" method="get">
                 <div>
-                    <label class="option-label">Miktar Seçin</label>
-                    <div class="weight-options">
-                        <button class="weight-btn">500g</button>
-                        <button class="weight-btn active">1kg</button>
-                        <button class="weight-btn">2kg</button>
-                        <button class="weight-btn">5kg</button>
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <span class="product-badge">Organik</span>
+                    <h1 class="product-title">@Model.Name</h1>
+
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span>★★★★★</span>
+                        </div>
+                        <span class="rating-count">4.8 (120 değerlendirme)</span>
                     </div>
                 </div>
 
-                <div class="quantity-selector">
-                    <label class="quantity-label">Adet:</label>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn">-</button>
-                        <input type="text" class="quantity-input" value="1" readonly>
-                        <button class="quantity-btn">+</button>
+                <div class="product-price">
+                    <span class="current-price">₺@Model.ListPrice</span>
+                    <span class="original-price">₺ @((Model.ListPrice * (100 + Model.Discount) / 100.0m).ToString("N2"))</span>
+                    <span class="discount-badge">%@Model.Discount İndirim</span>
+                </div>
+
+                <div class="product-description">
+                    <p>
+                        @Model.Description
+                    </p>
+                </div>
+
+                <div class="product-options">
+                    <div>
+                        <label class="option-label">Miktar Seçin</label>
+                        <div class="weight-options">
+                            <input type="radio" name="Stock" class="weight-btn" value=0.5 />500g
+                            <input type="radio" name="Stock" class="weight-btn" value=1 />1kg
+                            <input type="radio" name="Stock" class="weight-btn" value=2 />2kg
+                            <input type="radio" name="Stock" class="weight-btn" value=5 />5kg
+                        </div>
                     </div>
-                    <span class="stock-info">Stokta @Model.Stock kg kaldı</span>
-                </div>
 
-                <div class="action-buttons">
-                    <button class="add-to-cart">
-                        <span class="cart-icon">🛒</span>
-                        Sepete Ekle
-                    </button>
-                    <button class="action-icon-btn">❤️</button>
-                    <button class="action-icon-btn">🔗</button>
-                </div>
-            </div>
+                    <div class="quantity-selector">
+                        <label class="quantity-label">Adet:</label>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn">-</button>
+                            <input type="number" name="quantity" class="quantity-input" value="1" readonly>
+                            <button type="button" class="quantity-btn">+</button>
+                        </div>
+                        <span class="stock-info">Stokta @Model.Stock kg kaldı</span>
+                    </div>
 
+                    <div class="action-buttons">
+                        <button type="submit" class="add-to-cart">
+                            <span class="cart-icon">🛒</span>
+                            Sepete Ekle
+                        </button>
+                        <button class="action-icon-btn">❤️</button>
+                        <button class="action-icon-btn">🔗</button>
+                    </div>
+                </div>
+            </form>
             <div class="delivery-info">
                 <div class="info-item">
                     <span class="info-icon">🚚</span>
@@ -689,9 +692,9 @@
     </div>
 
     <!-- Benzer Ürünler -->
-    @await Component.InvokeAsync("_ProductSimilar_ViewComponentPartial",Model.Id)
+    @await Component.InvokeAsync("_ProductSimilar_ViewComponentPartial", Model.Id)
 </div>
-  </div>
+ 
 <script>
     // Basit JavaScript fonksiyonları
     document.addEventListener('DOMContentLoaded', function () {
