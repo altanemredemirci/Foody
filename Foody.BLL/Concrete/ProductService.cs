@@ -45,5 +45,10 @@ namespace Foody.BLL.Concrete
         {
             return _productDal.Update();
         }
+
+        public int Update(Product updateProduct, List<Image> images)
+        {
+            return _productDal.Update(updateProduct, images);
+        }
     }
 }

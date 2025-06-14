@@ -80,13 +80,15 @@ namespace Foody.WEBUI.Controllers
 			return View();
 		}
 
-		public async Task<IActionResult> DeleteFromCart(int productId)
+		public IActionResult DeleteFromCart(int productId)
 		{
 			if (productId==null)
 			{
 				TempData["message"] = "Ürün Bulunamadı";
 				return RedirectToAction("Index");
 			}
+
+			return View();
 		}
 
     }

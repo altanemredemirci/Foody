@@ -10,6 +10,8 @@ namespace Foody.CORE.DTOs.Product
 {
     public class UpdateProductDTO
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "İsim alanı boş geçilemez")]
         [StringLength(30)]
         public string Name { get; set; }
@@ -30,6 +32,9 @@ namespace Foody.CORE.DTOs.Product
         public int CategoryId { get; set; }
 
         public List<Image> Images { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
+
 
         public UpdateProductDTO()
         {

@@ -46,7 +46,7 @@ namespace Foody.DAL.Concrete.EfCore
             return _context.SaveChanges();
         }
 
-        public int Update()
+        public virtual int Update()
         {
             return _context.SaveChanges();
         }

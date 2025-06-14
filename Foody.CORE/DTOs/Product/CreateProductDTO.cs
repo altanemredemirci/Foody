@@ -29,6 +29,8 @@ namespace Foody.CORE.DTOs.Product
 
         public int CategoryId { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
         public List<Image> Images { get; set; }
 
         public CreateProductDTO()

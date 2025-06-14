@@ -11,6 +11,6 @@ namespace Foody.BLL.Abstract
 {
     public interface IProductService:IRepositoryService<Product>
     {
-
+        int Update(Product updateProduct, List<Image> images);
     }
 }

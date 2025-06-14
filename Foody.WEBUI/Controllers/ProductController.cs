@@ -76,19 +76,45 @@ namespace Foody.WEBUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var product = _productService.GetOne(updateProduct.Id);
+                var oldImages = new List<Image>();
+                updateProduct.Images = product.Images;
+               
                 if (files != null)
                 {
+                    foreach (var imageId in ImageId)
+                    {
+                        var Img = product.Images.Where(i => i.Id == imageId).FirstOrDefault();
+                        oldImages.Add(Img);
+                        ImageOperations.DeleteImage(Img.Url);
+                        updateProduct.Images.Remove(Img);
+                    }
+
+
                     foreach (IFormFile item in files)
                     {
                         updateProduct.Images.Add(new Image() { Url = await ImageOperations.UploadImageAsync(item) });
+
                     }
                 }
-                //updateProduct.CreatedDate = DateTime.Now;
-                //_productService.Create(updateProduct);
+                updateProduct.ModifiedDate=DateTime.Now;
+
+
+                product = _mapper.Map<Product>(updateProduct);
+
+                _productService.Update(product,oldImages);
                 return RedirectToAction("Index");
             }
+
             ViewBag.Categories = _categoryService.GetAll();
             return View(updateProduct);
+        }
+
+        public IActionResult Delete(int productId)
+        {
+            _productService.Delete(productId);
+
+            return RedirectToAction("Index");
         }
     }
 }

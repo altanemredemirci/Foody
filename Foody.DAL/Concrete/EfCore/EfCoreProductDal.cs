@@ -35,5 +35,23 @@ namespace Foody.DAL.Concrete.EfCore
             }
             return entities.ToList();
         }
+
+        public int Update(Product updateProduct, List<Image> Imgs)
+        {
+            _context.Images.RemoveRange(Imgs);
+
+            var product = GetOne(updateProduct.Id);
+
+            product.Name = updateProduct.Name;
+            product.ListPrice = updateProduct.ListPrice;
+            product.CategoryId = updateProduct.CategoryId;
+            product.Description = updateProduct.Description;
+            product.Stock = updateProduct.Stock;
+            product.Discount = updateProduct.Discount;
+            product.Images = updateProduct.Images;
+            product.IsFavorite = updateProduct.IsFavorite;
+
+            return _context.SaveChanges();
+        }
     }
 }
