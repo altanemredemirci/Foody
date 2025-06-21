@@ -1,0 +1,212 @@
+﻿@model Order
+@using Foody.CORE.Entities
+@{
+    ViewData["Title"] = "Sipariş Tamamla";
+
+    // Cast the dynamic ViewBag.Cart to its actual type and calculate total here
+    decimal cartTotal = 0;
+    if (ViewBag.Cart != null && ViewBag.Cart.CartItems != null)
+    {
+        var cartItems = ViewBag.Cart.CartItems as IEnumerable<CartItem>;
+        if (cartItems != null)
+        {
+            cartTotal = cartItems.Sum(i => i.ListPrice * i.Quantity);
+        }
+    }
+}
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">Sipariş Tamamla</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                <li class="breadcrumb-item"><a href="/Cart/Index">Sepetim</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sipariş Tamamla</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Checkout Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-7">
+                <div class="card border-0 rounded-3 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0 text-white">Teslimat Bilgileri</h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-controller="Cart" asp-action="CompleteOrder" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" name="OrderNumber" value="@Model.OrderNumber" />
+                            <input type="hidden" name="ApplicationUserId" value="@Model.ApplicationUserId" />
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">İl</label>
+                                        <input asp-for="City" type="text" class="form-control" required>
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">İlçe</label>
+                                        <input asp-for="District" type="text" class="form-control" required>
+                                        <span asp-validation-for="District" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">Adres</label>
+                                <textarea asp-for="Address" class="form-control" rows="3" required></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3">Ödeme Bilgileri</h5>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Kart Sahibinin Adı</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Kart Numarası</label>
+                                        <input type="text" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Son Kullanma Tarihi</label>
+                                        <input type="text" class="form-control" placeholder="MM/YY" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">CVV/CVC</label>
+                                        <input type="text" class="form-control" placeholder="XXX" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    Siparişi Tamamla <i class="fa fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card border-0 rounded-3 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0 text-white">Sipariş Özeti</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th class="text-center">Adet</th>
+                                        <th class="text-end">Fiyat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.Cart != null && ViewBag.Cart.CartItems != null)
+                                    {
+                                        @foreach (var item in ViewBag.Cart.CartItems)
+                                        {
+                                            <tr>
+                                                <td>@item.Product.Name</td>
+                                                <td class="text-center">@item.Quantity</td>
+                                                <td class="text-end">₺@((item.ListPrice * item.Quantity).ToString("N2"))</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <h6>Ara Toplam</h6>
+                            <h6 class="text-end">₺@(cartTotal.ToString("N2"))</h6>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <h6>Kargo</h6>
+                            <h6 class="text-end">Ücretsiz</h6>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5>Toplam</h5>
+                            <h5 class="text-end">₺@(cartTotal.ToString("N2"))</h5>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <i class="fa fa-info-circle me-2"></i> Siparişinizi tamamlamak için lütfen teslimat ve ödeme bilgilerinizi giriniz.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 rounded-3 shadow mt-4">
+                    <div class="card-body">
+                        <h5 class="mb-3">İndirim Kuponu</h5>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Kupon kodu girin">
+                            <button class="btn btn-secondary">Uygula</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Checkout End -->
+@section Scripts {
+    <script>
+        // Credit card formatting
+        $(document).ready(function() {
+            // Format credit card number with spaces
+            $('input[placeholder="XXXX XXXX XXXX XXXX"]').on('input', function() {
+                $(this).val(function (index, value) {
+                    return value.replace(/\W/gi, '').replace(/(.{4})/g, '$1 ').trim();
+                });
+            });
+
+            // Format expiration date with slash
+            $('input[placeholder="MM/YY"]').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+                if (value.length > 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                $(this).val(value);
+            });
+
+            // Limit CVV to 3-4 digits
+            $('input[placeholder="XXX"]').on('input', function() {
+                $(this).val($(this).val().replace(/\D/g, '').substring(0, 4));
+            });
+        });
+    </script>
+}

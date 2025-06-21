@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Foody.BLL.Concrete
 {
-	public class CartService : ICartService
+    public class CartService : ICartService
 	{
 		private readonly ICartDal _cartDal;
 
@@ -24,7 +24,12 @@ namespace Foody.BLL.Concrete
 			return await _cartDal.AddToCartAsync(cartItem);
 		}
 
-		public int Create(Cart entity)
+        public void ClearCart(int cartId)
+        {
+			_cartDal.ClearCart(cartId);
+        }
+
+        public int Create(Cart entity)
 		{
 			return _cartDal.Create(entity);
 		}

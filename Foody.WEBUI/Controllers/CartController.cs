@@ -13,13 +13,15 @@ namespace Foody.WEBUI.Controllers
 		private readonly ICartService _cartService;
 		private readonly IProductService _productService;
 		private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOrderService _orderService;
 
-		public CartController(ICartService cartService,IProductService productService,UserManager<ApplicationUser> userManager)
+        public CartController(ICartService cartService,IProductService productService,UserManager<ApplicationUser> userManager,IOrderService orderService)
 		{
 			_cartService = cartService;
 			_productService = productService;
 			_userManager = userManager;
-		}
+            _orderService = orderService;
+        }
 
 		public async Task<IActionResult> Index()
 		{
@@ -90,6 +92,92 @@ namespace Foody.WEBUI.Controllers
 
 			return View();
 		}
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account", new { returnUrl = "/Cart/Checkout" });
+            }
+
+            var cart = await _cartService.GetCartByUserIdAsync(userId);
+            if (cart == null || cart.CartItems.Count == 0)
+            {
+                TempData["error"] = "Sepetinizde ürün bulunmamaktadır.";
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Cart = cart;
+            return View(new Order() 
+            { 
+                OrderNumber= GenerateOrderNumber(),
+                ApplicationUserId=userId
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteOrder(Order order)
+        {
+            ModelState.Remove("ApplicationUser");
+            if (!ModelState.IsValid)
+            {
+                var cart = await _cartService.GetCartByUserIdAsync(_userManager.GetUserId(User));
+                ViewBag.Cart = cart;
+                return View("Checkout", order);
+            }
+
+            var userId = _userManager.GetUserId(User);
+            var userCart = await _cartService.GetCartByUserIdAsync(userId);
+
+            if (userCart == null || userCart.CartItems.Count == 0)
+            {
+                TempData["error"] = "Sepetinizde ürün bulunmamaktadır.";
+                return RedirectToAction("Index");
+            }
+
+            // Create a new order
+            order.ApplicationUserId = userId;
+            order.OrderNumber = GenerateOrderNumber();
+            order.OrderDate = DateTime.Now;
+            order.OrderState = OrderState.Pending;
+
+            // Create order items from cart items
+            foreach (var cartItem in userCart.CartItems)
+            {
+                var orderItem = new OrderItem
+                {
+                    ProductId = cartItem.ProductId,
+                    Quantity = cartItem.Quantity,
+                    ListPrice = cartItem.ListPrice
+                };
+
+                order.OrderItems.Add(orderItem);
+            }
+
+            // Save order to database (assuming you have an order service)
+            _orderService.Create(order);
+
+            // Clear the cart
+            _cartService.ClearCart(userCart.Id);
+
+            TempData["success"] = "Siparişiniz başarıyla oluşturuldu.";
+            return RedirectToAction("OrderConfirmation", new { orderId = order.Id });
+        }
+
+        private string GenerateOrderNumber()
+        {
+            return DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(1000, 9999).ToString();
+        }
+
+        public IActionResult OrderConfirmation(int orderId)
+        {
+            // Get order details
+            // var order = _orderService.GetOne(orderId);
+
+            return View();
+        }
 
     }
 }

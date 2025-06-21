@@ -77,6 +77,9 @@ builder.Services.AddScoped<IMailDal, EfCoreMailDal>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartDal, EfCoreCartDal>();
 
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderDal, EfCoreOrderDal>();
+
 #region AddScope,AddTransient,AddSingleton
 /*
 Service lifetimes(Servis ömürleri) ?

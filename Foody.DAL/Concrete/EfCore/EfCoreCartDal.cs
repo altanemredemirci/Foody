@@ -37,7 +37,12 @@ namespace Foody.DAL.Concrete.EfCore
 			return await _context.SaveChangesAsync();
 		}
 
-		public async Task<Cart> GetCartByUserIdAsync(string userId)
+        public void ClearCart(int cartId)
+        {
+            _context.CartItems.RemoveRange(_context.CartItems.Where(i => i.CartId == cartId));
+        }
+
+        public async Task<Cart> GetCartByUserIdAsync(string userId)
 		{
 			var cart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).ThenInclude(i => i.Images).FirstOrDefaultAsync(i=> i.ApplicationUserId==userId);
 			if (cart != null)
